@@ -1,0 +1,112 @@
+{
+  "name": "php-snippet-highlighter",
+  "displayName": "PHP Snippet Highlighter",
+  "description": "为混合文件中的PHP代码块添加可自定义的背景高亮，提升代码可读性，支持HTML/Blade/PHTML等主流PHP模板文件，支持一键开关和实时配置更新",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.106.1"
+  },
+  "publisher": "wlryyds", 
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lirui0407/php-snippet-highlighter.git"
+  },
+  "keywords": [
+    "php",
+    "snippet",
+    "highlight",
+    "background",
+    "blade",
+    "phtml",
+    "code readability"
+  ],
+  "icon": "logo.png",
+  "categories": [
+    "Formatters",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onLanguage:php",
+    "onLanguage:html",
+    "onLanguage:blade",
+    "onLanguage:phtml"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "php-snippet-highlighter.togglePHPBackground",
+        "title": "Toggle PHP Snippet Highlight",
+        "category": "PHP Highlighter"
+      },
+      {
+        "command": "php-snippet-highlighter.changePHPBackground",
+        "title": "Change PHP Snippet Background Color",
+        "category": "PHP Highlighter"
+      }
+    ],
+    "configuration": {
+      "title": "PHP Snippet Highlighter",
+      "properties": {
+        "phpSnippetHighlighter.backgroundColor": {
+          "type": "string",
+          "default": "rgba(50, 120, 200, 0.6)",
+          "description": "PHP代码块背景色（支持CSS合法格式：rgba/hex/rgb等）",
+          "examples": [
+            "rgba(50, 120, 200, 0.6)",
+            "#f0f8ff",
+            "rgb(240, 248, 255)"
+          ]
+        },
+        "phpSnippetHighlighter.supportedLanguages": {
+          "type": "array",
+          "default": ["html", "blade", "phtml", "php"],
+          "description": "启用PHP高亮的VS Code语言ID列表（可通过命令面板「Inspect Editor Language」查看当前文件语言ID）",
+          "items": {
+            "type": "string"
+          },
+          "examples": [
+            ["html", "blade", "phtml", "php"],
+            ["twig", "vue"]
+          ]
+        }
+      }
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "php-snippet-highlighter.togglePHPBackground",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "php-snippet-highlighter.changePHPBackground",
+          "when": "editorTextFocus"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "php-snippet-highlighter.togglePHPBackground",
+          "when": "editorTextFocus",
+          "group": "php-highlighter@1"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "clean:process": "taskkill /f /im Code.exe /im Electron.exe 2>nul",
+    "pretest": "npm run lint && npm run clean:process", 
+    "test": "vscode-test",
+    "prepublishOnly": "npm run lint && npm run test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.106.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "eslint": "^9.39.1",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
